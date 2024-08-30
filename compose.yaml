@@ -1,0 +1,10 @@
+version: "3.9"
+
+services:
+  xray:
+    image: teddysun/xray
+    container_name: xray
+    volumes:
+      - /etc/xray:/etc/xray
+    network_mode: host
+    restart: always

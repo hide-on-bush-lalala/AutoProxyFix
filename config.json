@@ -1,0 +1,86 @@
+{
+    "log": {
+        "loglevel": "warning"
+    },
+    "inbounds": [
+        {
+            "listen": "0.0.0.0",
+            "port": 20801,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "8b081744-4159-4868-9637-6ac603a31390",
+                        "level": 0,
+                        "alterId": 4
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws"
+            }
+        }
+    ],
+    "outbounds": [
+        {
+            "protocol": "freedom",
+            "settings": {},
+            "tag": "direct"
+        },
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        },
+        {
+            "tag": "GreencloudSG",
+            "protocol": "vmess",
+            "settings": {
+                "vnext": [
+                    {
+                        "address": "p3.0o0blog.com",
+                        "port": 20800,
+                        "users": [
+                            {
+                                "id": "8b081744-4159-4868-9637-6ac603a31390",
+                                "security": "auto",
+                                "alterId": 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "ws"
+            }
+        }
+    ],
+    "routing": {
+        "domainStrategy": "AsIs",
+        "rules": [
+            {
+                "ip": [
+                    "geoip:private"
+                ],
+                "outboundTag": "blocked",
+                "type": "field"
+            },
+            {
+                "outboundTag": "blocked",
+                "protocol": [
+                    "bittorrent"
+                ],
+                "type": "field"
+            },
+            {
+                "type": "field",
+                "outboundTag": "GreencloudSG",
+                "domains": [
+                    "geosite:netflix",
+                    "domain:fast.com"
+                ]
+            }
+        ]
+    },
+    "udp": true
+}
